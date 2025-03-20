@@ -4,8 +4,8 @@ import Sidebar from '~/base/components/Sidebar.vue'
 
 const isSidebarOpen = ref(false)
 
-const contentClass = computed(() => ({
-  'content-shifted': isSidebarOpen.value,
+const appMainClass = computed(() => ({
+  'app-main-shifted': isSidebarOpen.value,
 }))
 
 const toggleSidebar = () => {
@@ -19,36 +19,46 @@ const closeSidebar = () => {
 
 <template>
   <div class="app">
-    <!-- Боковая панель -->
     <Sidebar :isSidebarOpen="isSidebarOpen" @toggle-sidebar="toggleSidebar" />
+    <div class="app-main" :class="appMainClass" @click.stop="closeSidebar">
+      <header class="header">
+        <div class="sidebar-btn" v-if="!isSidebarOpen" @click.stop="toggleSidebar">
+          <div class="sidebar-btn-line"></div>
+          <div class="sidebar-btn-line"></div>
+          <div class="sidebar-btn-line"></div>
+        </div>
+      </header>
 
-    <!-- Кнопка бургер -->
-    <div class="sidebar-btn" @click="toggleSidebar">
-      <div class="sidebar-btn-line"></div>
-      <div class="sidebar-btn-line"></div>
-      <div class="sidebar-btn-line"></div>
-    </div>
-
-    <!-- Контент -->
-    <div class="content" :class="contentClass" @click="closeSidebar">
-      <NuxtPage />
+      <div class="content">
+        <NuxtPage />
+      </div>
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
+.header {
+  width: 100%;
+  height: 44px;
+}
+
 .app {
   position: relative;
   display: flex;
   max-height: 100vh;
   min-height: 100vh;
+  margin: 0 auto;
+  max-width: 1920px;
   transition: all 0.3s ease-in-out;
+
+  &-main {
+    height: 100vh;
+    padding: 40px 89px;
+    overflow: hidden;
+  }
 }
 
 .sidebar-btn {
-  position: absolute;
-  top: 69px;
-  left: 89px;
   display: flex;
   flex-direction: column;
   width: 55px;
@@ -66,15 +76,16 @@ const closeSidebar = () => {
 
 /* Контент */
 .content {
-  flex-grow: 1;
   width: 100%;
+  height: 100%;
   transition: margin-left 0.3s ease-in-out;
-  padding: 68px 89px 67px 59px;
+  padding: 40px 0px 0 0;
 }
 
 /* Когда меню открыто, сдвигаем контент */
-.content-shifted {
+.app-main-shifted {
   margin-left: 310px;
+  width: calc(100% - 310px);
 }
 
 .router-link-exact-active {

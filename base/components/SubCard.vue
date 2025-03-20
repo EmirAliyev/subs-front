@@ -22,11 +22,10 @@ import IconTime from '~/assets/svg/time.svg'
 <style scoped lang="scss">
 .card {
   max-width: 310px;
-  max-height: 395px;
-  height: 100%;
+  height: 365px;
   box-shadow: 0px 5px 20.6px -10px #0000006e;
   border-radius: 40px;
-  padding: 29px 39px 29px 39px;
+  padding: 20px 30px 20px 30px;
 
   &-img {
     max-width: 232px;

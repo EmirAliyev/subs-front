@@ -50,8 +50,8 @@ const sidebarClass = computed(() => ({
 
 <style scoped lang="scss">
 .sidebar {
-  position: fixed;
-  left: -310px;
+  position: absolute;
+  left: -100%;
   top: 0;
   width: 310px;
   height: 100vh;
