@@ -1,7 +1,8 @@
 <script setup>
 import { ref, computed } from 'vue'
 import Sidebar from '~/base/components/Sidebar.vue'
-
+import Button
+ from './base/ui/Button.vue'
 const isSidebarOpen = ref(false)
 
 const appMainClass = computed(() => ({
@@ -27,6 +28,9 @@ const closeSidebar = () => {
           <div class="sidebar-btn-line"></div>
           <div class="sidebar-btn-line"></div>
         </div>
+        <div class="header-menu">
+          <Button>Войти</Button>
+        </div>
       </header>
 
       <div class="content">
@@ -38,8 +42,13 @@ const closeSidebar = () => {
 
 <style scoped lang="scss">
 .header {
+  display: flex;
   width: 100%;
   height: 44px;
+
+  &-menu{
+    margin-left: auto;
+  }
 }
 
 .app {
@@ -52,9 +61,11 @@ const closeSidebar = () => {
   transition: all 0.3s ease-in-out;
 
   &-main {
+    position: relative;
+    width: 100%;
     height: 100vh;
     padding: 40px 89px;
-    overflow: hidden;
+    overflow: auto;
   }
 }
 
@@ -77,7 +88,6 @@ const closeSidebar = () => {
 /* Контент */
 .content {
   width: 100%;
-  height: 100%;
   transition: margin-left 0.3s ease-in-out;
   padding: 40px 0px 0 0;
 }
@@ -88,9 +98,5 @@ const closeSidebar = () => {
   width: calc(100% - 310px);
 }
 
-.router-link-exact-active {
-  .sidebar-nav-text {
-    color: $purple !important;
-  }
-}
+
 </style>

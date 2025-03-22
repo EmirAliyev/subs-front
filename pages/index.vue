@@ -14,12 +14,15 @@ import SubCard from '~/base/components/SubCard.vue'
     <h2 class="top-title">Топовые предложения</h2>
     <Vue3Marquee
       :gradient="true"
+      :pause-on-hover="true"
       gradient-length="10%"
       duration="5"
       :clone="true"
       class="top-marquee"
     >
-      <SubCard class="top-marquee-card" />
+      <div class="top-marquee-card-wrapper">
+        <SubCard class="top-marquee-card" />
+      </div>
     </Vue3Marquee>
   </div>
 </template>
@@ -35,7 +38,7 @@ import SubCard from '~/base/components/SubCard.vue'
   font-size: 55px;
   background: url('~/public/images/banner-bg.png');
   margin-bottom: 40px;
-  
+
   &-title {
     max-width: 935px;
     margin-bottom: 10px;
@@ -55,6 +58,7 @@ import SubCard from '~/base/components/SubCard.vue'
 
     &-card {
       margin-left: 48px;
+      cursor: pointer;
     }
   }
   &-title {

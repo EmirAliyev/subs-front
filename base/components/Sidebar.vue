@@ -98,6 +98,7 @@ const sidebarClass = computed(() => ({
       display: flex;
       align-items: center;
       gap: 13px;
+      color: $main-text;
 
       &:hover {
         .sidebar-nav-text,
@@ -133,6 +134,15 @@ const sidebarClass = computed(() => ({
         color: $purple;
       }
     }
+  }
+}
+
+.router-link-exact-active {
+  .sidebar-nav-text {
+    color: $purple !important;
+  }
+  .sidebar-nav-icon{
+    color: $purple !important;
   }
 }
 </style>
