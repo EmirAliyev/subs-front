@@ -5,15 +5,68 @@ import AngleRightIcon from '~/assets/svg/angle-right.svg'
 import SubCard from '~/base/components/SubCard.vue'
 import Button from '~/base/ui/Button.vue'
 import RoundedButton from '~/base/ui/FilterButton.vue'
+import FilterDropdown from '~/base/components/FilterDropdown.vue'
+import FilterTags from '~/base/components/FilterTags.vue'
+
+import { ref, computed } from 'vue'
+
+const isOpen = ref(false)
+const options = ref([
+  {
+    label: 'Bay Sands',
+    key: '2',
+    checked: false,
+  },
+  {
+    label: 'Brown645',
+    key: '1',
+    checked: false,
+  },
+  {
+    label: 'A645',
+    key: '3',
+    checked: false,
+  },
+  {
+    label: '657',
+    key: '4',
+    checked: false,
+  },
+])
+
+const handleCheckboxClick = (key) => {
+  const option = options.value.find((opt) => opt.key === key)
+
+  if (option) {
+    option.checked = !option.checked
+  }
+}
+
+const hasActiveOption = computed(() => {
+  return options.value.some((option) => option.checked)
+})
+
+const iconClass = computed(() => {
+  return hasActiveOption.value ? 'subs-header-filter-icon active' : 'subs-header-filter-icon'
+})
 </script>
 
 <template>
   <div class="subs">
     <div class="subs-header">
-      <h1 class="subs-header-title">Все подписки</h1>
-      <RoundedButton>
-        <FilterIcon class="subs-header-filter-icon" />
-      </RoundedButton>
+      <div class="subs-header-left">
+        <h1 class="subs-header-title">Все подписки</h1>
+        <FilterDropdown
+          :show-dropdown="isOpen"
+          :options="options"
+          @update-options="handleCheckboxClick"
+        >
+          <RoundedButton @click="isOpen = !isOpen">
+            <FilterIcon :class="iconClass" />
+          </RoundedButton>
+        </FilterDropdown>
+      </div>
+      <FilterTags :options="options.filter((tag) => tag.checked)" @update-tags="handleCheckboxClick"/>
     </div>
     <div class="subs-content">
       <div v-for="n in 18" :key="n" class="flip-card">
@@ -43,7 +96,7 @@ import RoundedButton from '~/base/ui/FilterButton.vue'
   &-header {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 32px;
     margin-bottom: 53px;
 
     &-title {
@@ -51,9 +104,19 @@ import RoundedButton from '~/base/ui/FilterButton.vue'
       font-size: 48px;
     }
 
-    &-filter-icon{
+    &-filter-icon {
       width: 26px;
       height: 30px;
+    }
+
+    &-filter-icon.active {
+      color: $purple;
+    }
+
+    &-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
   }
 
@@ -89,7 +152,6 @@ import RoundedButton from '~/base/ui/FilterButton.vue'
     position: relative;
     width: 100%;
     height: 100%;
-    text-align: center;
     transition: transform 0.6s;
     transform-style: preserve-3d;
   }
