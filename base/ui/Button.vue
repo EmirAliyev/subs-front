@@ -48,6 +48,7 @@ defineProps({
   justify-content: center;
   align-items: center;
 
+
   &-white {
     background: white;
     color: $main-text;
@@ -58,7 +59,5 @@ defineProps({
     padding: 14px 20px;
     font-weight: 600;
   }
-
-  
 }
 </style>

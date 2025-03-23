@@ -40,7 +40,10 @@ import SubCard from '~/base/components/SubCard.vue'
   margin-bottom: 40px;
 
   &-title {
-    max-width: 935px;
+    max-width: 941px;
+    line-height: 117%;
+    vertical-align: middle;
+
     margin-bottom: 10px;
   }
 

@@ -21,7 +21,11 @@ import IconTime from '~/assets/svg/time.svg'
 
 <style scoped lang="scss">
 .card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   max-width: 310px;
+  min-width: 310px;
   height: 365px;
   box-shadow: 0px 5px 20.6px -10px #0000006e;
   border-radius: 40px;
@@ -36,6 +40,7 @@ import IconTime from '~/assets/svg/time.svg'
   }
 
   &-info {
+    width: 100%;
     &-header {
       display: flex;
       justify-content: space-between;

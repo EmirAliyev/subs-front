@@ -7,7 +7,8 @@ import Button from '~/base/ui/Button.vue'
 import RoundedButton from '~/base/ui/FilterButton.vue'
 import FilterDropdown from '~/base/components/FilterDropdown.vue'
 import FilterTags from '~/base/components/FilterTags.vue'
-
+import Input from '~/base/ui/Input.vue'
+import LoopIcon from '~/assets/svg/loop.svg'
 import { ref, computed } from 'vue'
 
 const isOpen = ref(false)
@@ -54,7 +55,7 @@ const iconClass = computed(() => {
 <template>
   <div class="subs">
     <div class="subs-header">
-      <div class="subs-header-left">
+      <div class="subs-header-filter">
         <h1 class="subs-header-title">Все подписки</h1>
         <FilterDropdown
           :show-dropdown="isOpen"
@@ -66,8 +67,17 @@ const iconClass = computed(() => {
           </RoundedButton>
         </FilterDropdown>
       </div>
-      <FilterTags :options="options.filter((tag) => tag.checked)" @update-tags="handleCheckboxClick"/>
+      <Input round size="large" class="subs-header-search" placeholder="Поиск">
+        <template #prefix>
+          <LoopIcon />
+        </template>
+      </Input>
     </div>
+    <FilterTags
+      class="subs-header-tags"
+      :options="options.filter((tag) => tag.checked)"
+      @update-tags="handleCheckboxClick"
+    />
     <div class="subs-content">
       <div v-for="n in 18" :key="n" class="flip-card">
         <div class="flip-card-inner">
@@ -97,26 +107,56 @@ const iconClass = computed(() => {
     display: flex;
     align-items: center;
     gap: 32px;
-    margin-bottom: 53px;
+    margin-bottom: 16px;
+
+    @media (max-width: $md) {
+      flex-direction: column;
+      align-items: start;
+      gap: 16px;
+    }
+
+    &-filter {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
 
     &-title {
       font-weight: 600;
       font-size: 48px;
+
+      @media (max-width: $xl) {
+        font-size: 32px;
+      }
+
     }
 
     &-filter-icon {
       width: 26px;
       height: 30px;
+
+      @media (max-width: $xl) {
+        width: 13px;
+        height: 15px;
+      }
     }
 
     &-filter-icon.active {
       color: $purple;
     }
 
-    &-left {
-      display: flex;
-      align-items: center;
-      gap: 8px;
+    &-search {
+      margin-left: auto;
+      @media (max-width: $md) {
+        margin: 0 auto;
+      }
+    }
+
+    &-tags {
+      margin-bottom: 53px;
+      @media (max-width: $md) {
+        margin-bottom: 32px;
+      }
     }
   }
 
@@ -126,6 +166,11 @@ const iconClass = computed(() => {
     grid-template-columns: repeat(auto-fit, minmax(295px, 1fr));
     gap: 48px;
     margin-bottom: 60px;
+
+    @media (max-width: $xl) {
+      grid-template-columns: repeat(auto-fit, minmax(285px, 1fr));
+      gap: 40px;
+    }
   }
 
   &-load {
@@ -137,6 +182,11 @@ const iconClass = computed(() => {
     font-weight: 300;
     font-size: 20px;
     margin: 0 auto;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      color: $purple;
+    }
   }
 }
 
@@ -146,12 +196,16 @@ const iconClass = computed(() => {
   height: 100%;
   min-height: 365px;
   perspective: 1000px;
+  max-width: 310px;
+  margin: 0 auto;
   cursor: pointer;
 
   &-inner {
     position: relative;
     width: 100%;
     height: 100%;
+    max-width: 310px;
+
     transition: transform 0.6s;
     transform-style: preserve-3d;
   }
@@ -184,6 +238,7 @@ const iconClass = computed(() => {
     box-shadow: 0px 5px 20.6px -10px #0000006e;
     border-radius: 40px;
     padding: 48px 20px;
+
     background: linear-gradient(
       360deg,
       rgba(66, 36, 94, 0.8) 25%,

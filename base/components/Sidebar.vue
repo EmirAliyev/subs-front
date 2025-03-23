@@ -3,6 +3,7 @@ import { defineAsyncComponent, computed } from 'vue'
 import NAVIGATION_CONFIG from '~/base/configs/nav'
 import LogoutIcon from '~/assets/svg/logout.svg'
 import IconLogo from '~/assets/svg/logo.svg'
+import XIcon from '~/assets/svg/x.svg'
 
 // Принимаем пропс isSidebarOpen
 const props = defineProps({
@@ -27,6 +28,7 @@ const sidebarClass = computed(() => ({
 
 <template>
   <div class="sidebar" :class="sidebarClass">
+    <XIcon class="sidebar-close" @click="emit('toggle-sidebar')" />
     <div class="sidebar-header">
       <IconLogo class="icon" />
       <h1 class="sidebar-header-text">SubRadar</h1>
@@ -61,8 +63,23 @@ const sidebarClass = computed(() => ({
   transition: left 0.3s ease-in-out;
   z-index: 100;
 
+  @media (max-width: $xs) {
+    width: 100%;
+  }
+
   &-open {
     left: 0;
+  }
+
+  &-close {
+    display: none;
+
+    @media (max-width: $xs) {
+      display: block;
+      position: absolute;
+      top: 24px;
+      right: 24px;
+    }
   }
 
   &-header {
@@ -141,7 +158,7 @@ const sidebarClass = computed(() => ({
   .sidebar-nav-text {
     color: $purple !important;
   }
-  .sidebar-nav-icon{
+  .sidebar-nav-icon {
     color: $purple !important;
   }
 }

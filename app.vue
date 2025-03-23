@@ -1,8 +1,9 @@
 <script setup>
 import { ref, computed } from 'vue'
 import Sidebar from '~/base/components/Sidebar.vue'
-import Button
- from './base/ui/Button.vue'
+import Button from './base/ui/Button.vue'
+import { NConfigProvider } from 'naive-ui'
+
 const isSidebarOpen = ref(false)
 
 const appMainClass = computed(() => ({
@@ -16,28 +17,37 @@ const toggleSidebar = () => {
 const closeSidebar = () => {
   if (isSidebarOpen.value) isSidebarOpen.value = false
 }
+
+const themeOverrides = {
+  common: {
+    primaryColor: '#5F229A',
+    primaryColorHover: '#5F229A',
+  },
+}
 </script>
 
 <template>
-  <div class="app">
-    <Sidebar :isSidebarOpen="isSidebarOpen" @toggle-sidebar="toggleSidebar" />
-    <div class="app-main" :class="appMainClass" @click.stop="closeSidebar">
-      <header class="header">
-        <div class="sidebar-btn" v-if="!isSidebarOpen" @click.stop="toggleSidebar">
-          <div class="sidebar-btn-line"></div>
-          <div class="sidebar-btn-line"></div>
-          <div class="sidebar-btn-line"></div>
-        </div>
-        <div class="header-menu">
-          <Button>Войти</Button>
-        </div>
-      </header>
+  <n-config-provider :theme-overrides="themeOverrides">
+    <div class="app">
+      <Sidebar :isSidebarOpen="isSidebarOpen" @toggle-sidebar="toggleSidebar" />
+      <div class="app-main" :class="appMainClass" @click.stop="closeSidebar">
+        <header class="header">
+          <div class="sidebar-btn" v-if="!isSidebarOpen" @click.stop="toggleSidebar">
+            <div class="sidebar-btn-line"></div>
+            <div class="sidebar-btn-line"></div>
+            <div class="sidebar-btn-line"></div>
+          </div>
+          <div class="header-menu">
+            <Button>Войти</Button>
+          </div>
+        </header>
 
-      <div class="content">
-        <NuxtPage />
+        <div class="content">
+          <NuxtPage />
+        </div>
       </div>
     </div>
-  </div>
+  </n-config-provider>
 </template>
 
 <style scoped lang="scss">
@@ -46,7 +56,11 @@ const closeSidebar = () => {
   width: 100%;
   height: 44px;
 
-  &-menu{
+  @media (max-width: $md) {
+    align-items: center;
+  }
+
+  &-menu {
     margin-left: auto;
   }
 }
@@ -66,6 +80,18 @@ const closeSidebar = () => {
     height: 100vh;
     padding: 40px 89px;
     overflow: auto;
+
+    @media (max-width: $xl) {
+      padding: 40px 60px;
+    }
+
+    @media (max-width: $sm) {
+      padding: 32px 24px;
+    }
+
+    @media (max-width: 365px) {
+      padding: 28px 16px;
+    }
   }
 }
 
@@ -77,11 +103,20 @@ const closeSidebar = () => {
   gap: 8px;
   cursor: pointer;
 
+  @media (max-width: $sm) {
+    width: 32px;
+    gap: 6px;
+  }
+
   &-line {
-    height: 8px;
+    height: 5px;
     width: 100%;
     background: $main-text;
     border-radius: 3px;
+
+    @media (max-width: $sm) {
+      height: 5px;
+    }
   }
 }
 
@@ -96,7 +131,10 @@ const closeSidebar = () => {
 .app-main-shifted {
   margin-left: 310px;
   width: calc(100% - 310px);
+
+  @media (max-width: $sm) {
+    margin-left: 0;
+    width: 100%;
+  }
 }
-
-
 </style>

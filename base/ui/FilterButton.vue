@@ -49,5 +49,11 @@ defineProps({
     background: white;
     color: $main-text;
   }
+
+  @media (max-width: $xl) {
+    width: 32px;
+    height: 32px;
+    border-radius: 11px;
+  }
 }
 </style>
