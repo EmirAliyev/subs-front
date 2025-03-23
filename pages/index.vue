@@ -7,21 +7,21 @@ const gradientLength = ref('10%')
 const updateGradientLength = () => {
   const width = window.innerWidth
   if (width < 768) {
-    gradientLength.value = '2%' 
+    gradientLength.value = '2%'
   } else if (width < 1440) {
-    gradientLength.value = '4%' 
+    gradientLength.value = '4%'
   } else {
-    gradientLength.value = '10%'  
+    gradientLength.value = '10%'
   }
 }
 
 onMounted(() => {
-  updateGradientLength() 
-  window.addEventListener('resize', updateGradientLength)  
+  updateGradientLength()
+  window.addEventListener('resize', updateGradientLength)
 })
 
 onBeforeUnmount(() => {
-  window.removeEventListener('resize', updateGradientLength) 
+  window.removeEventListener('resize', updateGradientLength)
 })
 </script>
 
@@ -42,6 +42,19 @@ onBeforeUnmount(() => {
       duration="5"
       :clone="true"
       class="top-marquee"
+    >
+      <div class="top-marquee-card-wrapper">
+        <SubCard class="top-marquee-card" />
+      </div>
+    </Vue3Marquee>
+    <Vue3Marquee
+      :gradient="true"
+      :pause-on-hover="true"
+      :gradient-length="gradientLength"
+      duration="5"
+      :clone="true"
+      class="top-marquee"
+      :direction="'reverse'"
     >
       <div class="top-marquee-card-wrapper">
         <SubCard class="top-marquee-card" />
