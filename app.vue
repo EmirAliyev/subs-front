@@ -82,7 +82,7 @@ const themeOverrides = {
     overflow: auto;
 
     @media (max-width: $xl) {
-      padding: 40px 60px;
+      padding: 40px 50px;
     }
 
     @media (max-width: $sm) {

@@ -48,6 +48,9 @@ defineProps({
   justify-content: center;
   align-items: center;
 
+  @media (max-width: $xs) {
+    font-size: 16px;
+  }
 
   &-white {
     background: white;
