@@ -6,6 +6,7 @@
     "start": "nuxt start",
     "build": "nuxt build",
     "dev": "nuxt dev",
+    "deploy": "npm install && nuxt build && nuxt start",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
