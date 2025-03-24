@@ -3,6 +3,7 @@ export default defineNuxtConfig({
   build: {
     transpile: ['naive-ui', 'vueuc']
   },
+  ssr: true,
   modules: ['nuxt-svgo', '@nuxt/image'],
   svgo: {
     svgo: true,
