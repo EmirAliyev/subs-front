@@ -1,5 +1,11 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
+  nitro: {
+    preset: 'node-server',
+    output: {
+      dir: '.output'
+    }
+  },
   build: {
     transpile: ['naive-ui', 'vueuc']
   },
