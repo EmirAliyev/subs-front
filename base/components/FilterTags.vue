@@ -1,5 +1,5 @@
 <script setup>
-import Tag from '../ui/Tag.vue'
+import Tag from '~/base/ui/Tag.vue'
 
 const emit = defineEmits('update-tags')
 const props = defineProps({

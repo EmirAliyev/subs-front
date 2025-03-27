@@ -1,9 +1,9 @@
 <script setup>
-import HomeView from '~/views/HomeView/index.vue'
+import MySubsView from '~/views/MySubsView/index.vue'
 </script>
 
 <template>
-  <HomeView />
+  <MySubsView />
 </template>
 
 <style scoped lang="scss"></style>

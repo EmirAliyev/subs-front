@@ -1,17 +1,19 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
   ssr: true,
-
   nitro: {
     preset: "node-server",
     output: {
       dir: "dist"
     }
   },
+
   build: {
     transpile: ['naive-ui', 'vueuc']
   },
+
   modules: ['nuxt-svgo', '@nuxt/image'],
+
   svgo: {
     svgo: true,
     defaultImport: 'component',
@@ -19,9 +21,11 @@ export default defineNuxtConfig({
       multipass: true,
     },
   },
+
   css: [
     '~/assets/scss/app.scss',
   ],
+
   vite: {
     css: {
       preprocessorOptions: {
@@ -30,5 +34,7 @@ export default defineNuxtConfig({
         }
       }
     }
-  }
+  },
+
+  compatibilityDate: '2025-03-26'
 })

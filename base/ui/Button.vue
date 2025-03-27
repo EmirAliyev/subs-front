@@ -36,7 +36,7 @@ defineProps({
 
 <style scoped lang="scss">
 .base-button {
-  background: $main-text;
+  background: $purple;
   color: white;
   border-radius: 15px;
   padding: 9px 26px;
@@ -54,7 +54,8 @@ defineProps({
 
   &-white {
     background: white;
-    color: $main-text;
+    color: $purple;
+    border: 1px solid $purple;
   }
 
   &-large {

@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import Sidebar from '~/base/components/Sidebar.vue'
-import Button from './base/ui/Button.vue'
+import Button from '~/base/ui/Button.vue'
 import { NConfigProvider } from 'naive-ui'
 
 const isSidebarOpen = ref(false)
@@ -109,7 +109,7 @@ const themeOverrides = {
   }
 
   &-line {
-    height: 5px;
+    height: 8px;
     width: 100%;
     background: $main-text;
     border-radius: 3px;

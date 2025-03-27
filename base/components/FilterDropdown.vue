@@ -1,6 +1,6 @@
 <script setup>
 import { h, defineEmits } from 'vue'
-import Checkbox from '../ui/Checkbox.vue'
+import Checkbox from '~/base/ui/Checkbox.vue'
 const emit = defineEmits(['update-options'])
 
 const props = defineProps({
@@ -57,15 +57,15 @@ const renderLabelComponent = (option) => {
 
 <template>
   <ClientOnly>
-      <n-dropdown
-        size="large"
-        v-bind="dropdownProps"
-        :render-label="renderLabel"
-        :options="options"
-        @select="handleSelect"
-      >
-        <slot></slot>
-      </n-dropdown>
+    <n-dropdown
+      size="large"
+      v-bind="dropdownProps"
+      :render-label="renderLabel"
+      :options="options"
+      @select="handleSelect"
+    >
+      <slot></slot>
+    </n-dropdown>
   </ClientOnly>
 </template>
 
