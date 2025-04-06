@@ -1,55 +1,113 @@
 <script setup>
-import FilterIcon from '~/assets/svg/filter.svg'
-import CircleArrowsIcon from '~/assets/svg/circle-arrows.svg'
-import AngleRightIcon from '~/assets/svg/angle-right.svg'
+import LoopIcon from '~/assets/svg/loop.svg'
 import SubCard from '~/base/components/SubCard.vue'
-import Button from '~/base/ui/Button.vue'
-import RoundedButton from '~/base/ui/FilterButton.vue'
-import FilterDropdown from '~/base/components/FilterDropdown.vue'
 import FilterTags from '~/base/components/FilterTags.vue'
 import Input from '~/base/ui/Input.vue'
-import LoopIcon from '~/assets/svg/loop.svg'
-import { ref, computed } from 'vue'
+import Filters from './ui/Filters.vue'
+import { ref, watch, onMounted } from 'vue'
+import { isEqual } from '~/base/utils/isEqual'
+import { API_SUBCARDS_KEYS } from '~/base/api/sub-cards/keys'
+import { categoriesApi } from '~/base/api/categories/api'
+import { subCardsApi } from '~/base/api/sub-cards/api'
+import { useRoute, useRouter } from 'vue-router'
+import { debounce } from '~/base/utils/debounce'
 
-const isOpen = ref(false)
-const options = ref([
+const route = useRoute()
+const router = useRouter()
+
+const filters = reactive({
+  page: parseInt(route.query.page || '1'),
+  search: route.query.search || '',
+  categoryIds: route.query.categories ? route.query.categories.split(',').map(Number) : [],
+})
+watch(
+  () => filters.search,
+  () => {
+    filters.page = 1
+    debouncedSearch()
+  }
+)
+const debouncedSearch = debounce(() => {
+  updateRoute()
+}, 500)
+
+const {
+  status,
+  data: subCards,
+  error,
+  refresh,
+} = useAsyncData(
+  `${API_SUBCARDS_KEYS.SUBCARDS}-${filters.page}-${filters.search}-${filters.categoryIds.join(',')}`,
+  () =>
+    subCardsApi.getAllSubCards({
+      page: filters.page,
+      categoryIds: filters.categoryIds,
+      search: filters.search,
+    }),
   {
-    label: 'Bay Sands',
-    key: '2',
-    checked: false,
+    watch: [filters.page, filters.search, () => filters.categoryIds],
+    server: true,
+  }
+)
+
+const updateRoute = () => {
+  const query = {
+    page: filters.page > 1 ? filters.page : undefined,
+    search: filters.search || undefined,
+    categories: filters.categoryIds.length ? filters.categoryIds.join(',') : undefined,
+  }
+
+  router.push({
+    query: Object.fromEntries(Object.entries(query).filter(([_, value]) => value !== undefined)),
+  })
+
+  refresh()
+}
+const handlePageChange = (newPage) => {
+  filters.page = newPage
+  updateRoute()
+}
+
+const options = ref([])
+const categories = ref([])
+const getOptions = async () => {
+  const data = await categoriesApi.getAllCategories()
+  categories.value = data
+}
+watch(
+  categories,
+  (newCategories) => {
+    if (newCategories) {
+      options.value = newCategories.map((category) => ({
+        ...category,
+        checked: filters.categoryIds.includes(category.key),
+      }))
+    }
   },
-  {
-    label: 'Brown645',
-    key: '1',
-    checked: false,
-  },
-  {
-    label: 'A645',
-    key: '3',
-    checked: false,
-  },
-  {
-    label: '657',
-    key: '4',
-    checked: false,
-  },
-])
+  { immediate: true }
+)
+onMounted(() => {
+  getOptions()
+})
 
 const handleCheckboxClick = (key) => {
   const option = options.value.find((opt) => opt.key === key)
-
   if (option) {
     option.checked = !option.checked
   }
 }
+const handleApplyFilters = () => {
+  const currentFiltersIds = options.value
+    .filter((option) => option.checked)
+    .map((option) => option.key)
 
-const hasActiveOption = computed(() => {
-  return options.value.some((option) => option.checked)
-})
+  if (isEqual(filters.categoryIds, currentFiltersIds)) {
+    return
+  }
 
-const iconClass = computed(() => {
-  return hasActiveOption.value ? 'subs-header-filter-icon active' : 'subs-header-filter-icon'
-})
+  filters.categoryIds = [...currentFiltersIds]
+  filters.page = 1
+}
 </script>
 
 <template>
@@ -57,34 +115,48 @@ const iconClass = computed(() => {
     <div class="subs-header">
       <div class="subs-header-filter">
         <h1 class="subs-header-title">Все подписки</h1>
-        <FilterDropdown
-          :show-dropdown="isOpen"
+        <Filters
           :options="options"
           @update-options="handleCheckboxClick"
-        >
-          <RoundedButton @click="isOpen = !isOpen">
-            <FilterIcon :class="iconClass" />
-          </RoundedButton>
-        </FilterDropdown>
+          @apply-filters="handleApplyFilters"
+        />
       </div>
-      <Input round size="large" class="subs-header-search" placeholder="Поиск">
+      <Input
+        round
+        size="large"
+        class="subs-header-search"
+        v-model="filters.search"
+        placeholder="Поиск"
+      >
         <template #prefix>
           <LoopIcon />
         </template>
       </Input>
     </div>
+
     <FilterTags
       class="subs-header-tags"
       :options="options.filter((tag) => tag.checked)"
       @update-tags="handleCheckboxClick"
     />
+
     <div class="subs-content">
-      <SubCard v-for="n in 18" :key="n" class="subs-content-card" />
+      <SubCard
+        v-for="card in subCards?.data || []"
+        :card="card"
+        :key="card.id"
+        class="subs-content-card"
+      />
     </div>
-    <div class="subs-load">
-      <CircleArrowsIcon class="subs-load-icon" />
-      <span class="subs-load-text">Загрузить еще</span>
-    </div>
+
+    <ClientOnly>
+      <n-pagination
+        class="subs-load"
+        v-model:page="filters.page"
+        :page-count="subCards?.meta?.pages || 0"
+        @update:page="handlePageChange"
+      />
+    </ClientOnly>
   </div>
 </template>
 
@@ -118,20 +190,6 @@ const iconClass = computed(() => {
       @media (max-width: $xl) {
         font-size: 32px;
       }
-    }
-
-    &-filter-icon {
-      width: 26px;
-      height: 30px;
-
-      @media (max-width: $xl) {
-        width: 13px;
-        height: 15px;
-      }
-    }
-
-    &-filter-icon.active {
-      color: $purple;
     }
 
     &-search {

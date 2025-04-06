@@ -2,7 +2,7 @@
 import SubCard from '~/base/components/SubCard.vue'
 import MySubsTable from './ui/MySubsTable.vue'
 import Button from '~/base/ui/Button.vue'
-
+import MySubsDoughnut from './ui/MySubsDoughnut.vue'
 const tableData = [
   { name: 'Netflix', price: 23, period: '23 дня', date: '09.02.2024' },
   { name: 'Netflix', price: 23, period: '23 дня', date: '09.02.2024' },
@@ -22,7 +22,7 @@ const tableData = [
           <span class="price-title">Стоимость в месяц</span>
           <span class="price-sum">92$</span>
         </div>
-        <div class="my-subs-info-block-category"></div>
+        <MySubsDoughnut />
       </div>
     </div>
     <div class="my-subs-table-content">
@@ -63,7 +63,7 @@ const tableData = [
       width: 100%;
       background: $light-grey;
       border-radius: 30px;
-      height: 914px;
+      height: 830px;
       padding: 46px 37px;
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -95,7 +95,9 @@ const tableData = [
 
     &-info {
       display: flex;
-      justify-content: space-between;
+      flex-direction: column;
+      justify-content: space-around;
+
 
       &-block-price {
         display: flex;

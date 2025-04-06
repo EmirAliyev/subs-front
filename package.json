@@ -13,12 +13,19 @@
   },
   "dependencies": {
     "@nuxt/image": "^1.10.0",
+    "@pinia/nuxt": "^0.10.1",
+    "axios": "^1.8.4",
+    "chart.js": "^4.4.8",
+    "dayjs": "^1.11.13",
     "naive-ui": "^2.41.0",
     "nuxt": "^3.16.0",
     "nuxt-svgo": "^4.0.15",
+    "pinia": "^3.0.1",
     "vue": "^3.5.13",
+    "vue-chartjs": "^5.3.2",
     "vue-router": "^4.5.0",
-    "vue3-marquee": "^4.2.2"
+    "vue3-marquee": "^4.2.2",
+    "vue3-telegram-login": "^1.1.0"
   },
   "devDependencies": {
     "@nuxt/eslint-config": "^1.1.0",

@@ -1,5 +1,26 @@
 <script setup>
 import IconTime from '~/assets/svg/time.svg'
+import { getLastUpdatedText } from '~/base/utils/lastUpdate'
+
+const props = defineProps({
+  card: {
+    type: Object,
+    default: () => {},
+  },
+})
+
+const currencySymbol = computed(() => {
+  switch (props.card.currency) {
+    case 'RUB':
+      return '₽'
+    case 'USD':
+      return '$'
+    case 'EUR':
+      return '€'
+    default:
+      return ''
+  }
+})
 </script>
 
 <template>
@@ -7,13 +28,20 @@ import IconTime from '~/assets/svg/time.svg'
     <NuxtImg class="card-img" src="/images/test-card.png" />
     <div class="card-info">
       <div class="card-info-header">
-        <span class="card-info-header-name">Netflix</span>
-        <span class="card-info-header-price">9.99$</span>
+        <span class="card-info-header-name">{{ card.name }}</span>
+        <span class="card-info-header-price">
+          {{ card.price_per_month }} {{ currencySymbol }}
+        </span>
       </div>
-      <span class="card-info-category">Развлечение</span>
-      <div class="card-info-update">
-        <IconTime class="icon" />
-        <span class="card-info-update-text">Обновлено 5 дней назад</span>
+      <span class="card-info-category">{{ card.categories[0]?.name }}</span>
+      <div class="card-info-bottom">
+        <div class="card-info-bottom-update">
+          <IconTime class="icon" />
+          <span class="card-info-bottom-update-text">
+            {{ getLastUpdatedText(card.lastUpdated) }}
+          </span>
+        </div>
+        <div class="card-info-bottom-btn"></div>
       </div>
     </div>
   </div>
@@ -24,6 +52,7 @@ import IconTime from '~/assets/svg/time.svg'
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 8px;
   max-width: 310px;
   min-width: 310px;
   height: 365px;
@@ -54,7 +83,7 @@ import IconTime from '~/assets/svg/time.svg'
       font-weight: 300;
     }
 
-    &-update {
+    &-bottom-update {
       display: flex;
       align-items: center;
       gap: 5px;

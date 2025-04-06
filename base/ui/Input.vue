@@ -2,6 +2,8 @@
 import { NInput } from 'naive-ui'
 import { ref } from 'vue'
 
+const model = defineModel({ required: true })
+
 const props = defineProps({
   type: {
     type: String,
@@ -29,13 +31,12 @@ const props = defineProps({
   },
 })
 
-const value = ref('')
 </script>
 
 <template>
   <n-input
     class="base-input"
-    v-model:value="value"
+    v-model:value="model"
     :round="round"
     :size="size"
     :clearable="clearable"

@@ -12,7 +12,7 @@ export default defineNuxtConfig({
     transpile: ['naive-ui', 'vueuc']
   },
 
-  modules: ['nuxt-svgo', '@nuxt/image'],
+  modules: ['nuxt-svgo', '@nuxt/image', '@pinia/nuxt'],
 
   svgo: {
     svgo: true,
@@ -27,6 +27,15 @@ export default defineNuxtConfig({
   ],
 
   vite: {
+
+    server: {
+      hmr: {
+        clientPort: 443, // Для работы с HTTPS
+      },
+      allowedHosts: [
+        '73c6-185-146-112-205.ngrok-free.app' // Добавь свой хост
+      ]
+    },
     css: {
       preprocessorOptions: {
         scss: {

@@ -1,8 +1,8 @@
 <script setup>
 import { ref, computed } from 'vue'
 import Sidebar from '~/base/components/Sidebar.vue'
-import Button from '~/base/ui/Button.vue'
 import { NConfigProvider } from 'naive-ui'
+import Auth from './base/components/Auth.vue'
 
 const isSidebarOpen = ref(false)
 
@@ -38,7 +38,9 @@ const themeOverrides = {
             <div class="sidebar-btn-line"></div>
           </div>
           <div class="header-menu">
-            <Button>Войти</Button>
+            <ClientOnly>
+              <Auth />
+            </ClientOnly>
           </div>
         </header>
 
