@@ -1,28 +1,5 @@
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue'
-import SubCard from '~/base/components/SubCard/SubCard.vue'
-
-const gradientLength = ref('10%')
-
-const updateGradientLength = () => {
-  const width = window.innerWidth
-  if (width < 768) {
-    gradientLength.value = '2%'
-  } else if (width < 1440) {
-    gradientLength.value = '4%'
-  } else {
-    gradientLength.value = '10%'
-  }
-}
-
-onMounted(() => {
-  updateGradientLength()
-  window.addEventListener('resize', updateGradientLength)
-})
-
-onBeforeUnmount(() => {
-  window.removeEventListener('resize', updateGradientLength)
-})
+import Marquee from './ui/Marquee.vue'
 </script>
 
 <template>
@@ -35,29 +12,7 @@ onBeforeUnmount(() => {
   </div>
   <div class="top">
     <h2 class="top-title">Топовые предложения</h2>
-    <Vue3Marquee
-      :gradient="true"
-      :gradient-length="gradientLength"
-      duration="5"
-      :clone="true"
-      class="top-marquee"
-    >
-      <div class="top-marquee-card-wrapper">
-        <SubCard class="top-marquee-card" />
-      </div>
-    </Vue3Marquee>
-    <Vue3Marquee
-      :gradient="true"
-      :gradient-length="gradientLength"
-      duration="5"
-      :clone="true"
-      class="top-marquee"
-      :direction="'reverse'"
-    >
-      <div class="top-marquee-card-wrapper">
-        <SubCard class="top-marquee-card" />
-      </div>
-    </Vue3Marquee>
+    <Marquee />
   </div>
 </template>
 
@@ -115,14 +70,6 @@ onBeforeUnmount(() => {
 }
 
 .top {
-  &-marquee {
-    display: flex;
-    height: 395px;
-
-    &-card {
-      margin-left: 48px;
-    }
-  }
   &-title {
     font-size: 32px;
     margin-bottom: 34px;
