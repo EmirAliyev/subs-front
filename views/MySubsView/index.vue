@@ -1,5 +1,5 @@
 <script setup>
-import SubCard from '~/base/components/SubCard.vue'
+import SubCard from '~/base/components/SubCard/SubCard.vue'
 import MySubsTable from './ui/MySubsTable.vue'
 import Button from '~/base/ui/Button.vue'
 import MySubsDoughnut from './ui/MySubsDoughnut.vue'
@@ -97,7 +97,6 @@ const tableData = [
       display: flex;
       flex-direction: column;
       justify-content: space-around;
-
 
       &-block-price {
         display: flex;

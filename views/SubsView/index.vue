@@ -1,6 +1,6 @@
 <script setup>
 import LoopIcon from '~/assets/svg/loop.svg'
-import SubCard from '~/base/components/SubCard.vue'
+import SubCard from '~/base/components/SubCard/SubCard.vue'
 import FilterTags from '~/base/components/FilterTags.vue'
 import Input from '~/base/ui/Input.vue'
 import Filters from './ui/Filters.vue'
@@ -146,6 +146,7 @@ const handleApplyFilters = () => {
         :card="card"
         :key="card.id"
         class="subs-content-card"
+        @card-action="refresh"
       />
     </div>
 

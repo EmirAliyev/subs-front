@@ -33,7 +33,7 @@ export default defineNuxtConfig({
         clientPort: 443, // Для работы с HTTPS
       },
       allowedHosts: [
-        '73c6-185-146-112-205.ngrok-free.app' // Добавь свой хост
+        '56d8-185-146-112-205.ngrok-free.app' // Добавь свой хост
       ]
     },
     css: {

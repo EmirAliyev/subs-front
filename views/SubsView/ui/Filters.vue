@@ -37,7 +37,7 @@ const toogleOpen = () => {
     :options="options"
     @update-options="(key) => emit('update-options', key)"
   >
-    <n-tooltip placement="top" :show="isOpen">
+    <n-tooltip placement="right" :show="isOpen">
       <template #trigger>
         <RoundedButton @click="toogleOpen">
           <IconX v-if="isOpen" />

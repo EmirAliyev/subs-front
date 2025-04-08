@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue'
-import SubCard from '~/base/components/SubCard.vue'
+import SubCard from '~/base/components/SubCard/SubCard.vue'
 
 const gradientLength = ref('10%')
 
