@@ -2,6 +2,9 @@
 .data
 .nuxt
 .cache
+dist
+.output
+.nitro
 
 # Node dependencies
 node_modules

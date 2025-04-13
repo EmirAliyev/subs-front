@@ -7,6 +7,7 @@ export default defineNuxtConfig({
       dir: "dist"
     }
   },
+
   app: {
     head: {
       link: [
@@ -15,12 +16,13 @@ export default defineNuxtConfig({
     }
   },
   build: {
-    transpile: ['naive-ui', 'vueuc']
+    transpile: ['naive-ui', 'vueuc'],
   },
+
   runtimeConfig: {
     public: {
-      backendDevPort: process.env.BACKEND_DEV_PORT,
-      exchangeApi: process.env.EXCANGE_API,
+      apiUrlDev: process.env.NUXT_PUBLIC_API_URL_DEV,
+      apiUrlProd: process.env.NUXT_PUBLIC_API_URL_PROD
     },
   },
   modules: ['nuxt-svgo', '@nuxt/image', '@pinia/nuxt'],
@@ -43,7 +45,7 @@ export default defineNuxtConfig({
         clientPort: 443, // Для работы с HTTPS
       },
       allowedHosts: [
-        'subradar.ru' 
+        'subradar.ru'
       ]
     },
     css: {
