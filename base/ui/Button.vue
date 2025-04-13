@@ -1,4 +1,5 @@
 <script setup>
+import IconSpin from '~/assets/svg/spin.svg'
 defineProps({
   theme: {
     type: String,
@@ -12,6 +13,10 @@ defineProps({
     type: Boolean,
     default: false,
   },
+  loading: {
+    type: Boolean,
+    default: false,
+  },
   size: {
     type: String,
     default: '',
@@ -22,7 +27,7 @@ defineProps({
 <template>
   <button
     @click.stop="handleClick"
-    :disabled="disabled"
+    :disabled="disabled || loading"
     :type="nativeType"
     :class="[
       'base-button',
@@ -30,7 +35,10 @@ defineProps({
       { 'base-button-large': size === 'large' },
     ]"
   >
-    <slot></slot>
+    <IconSpin v-if="loading" />
+    <template v-else>
+      <slot></slot>
+    </template>
   </button>
 </template>
 

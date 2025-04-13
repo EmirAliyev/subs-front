@@ -7,7 +7,7 @@ const { status, data: subCards } = useAsyncData(API_SUBCARDS_KEYS.TOP_SUBCARDS, 
   subCardsApi.getTopSubs()
 )
 
-console.log(subCards,53)
+console.log(subCards, 53)
 const gradientLength = ref('10%')
 const updateGradientLength = () => {
   const width = window.innerWidth
@@ -28,7 +28,6 @@ onMounted(() => {
 onBeforeUnmount(() => {
   window.removeEventListener('resize', updateGradientLength)
 })
-
 </script>
 
 <template>
@@ -41,7 +40,7 @@ onBeforeUnmount(() => {
     class="marquee"
   >
     <div class="marquee-card-wrapper" v-for="card in subCards?.slice(0, 5)" :key="card.id">
-      <SubCard class="marquee-card" :card="card" />
+      <SubCard hide-mini-button class="marquee-card" :card="card" />
     </div>
   </Vue3Marquee>
 
@@ -55,7 +54,7 @@ onBeforeUnmount(() => {
     direction="reverse"
   >
     <div class="marquee-card-wrapper" v-for="card in subCards?.slice(5, 10)" :key="card.id">
-      <SubCard class="marquee-card" :card="card" />
+      <SubCard hide-mini-button class="marquee-card" :card="card" />
     </div>
   </Vue3Marquee>
 </template>

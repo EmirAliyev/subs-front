@@ -43,10 +43,10 @@ const sidebarClass = computed(() => ({
         </li>
       </ul>
     </nav>
-    <div class="sidebar-logout">
+    <!-- <div class="sidebar-logout">
       <LogoutIcon class="sidebar-logout-icon" />
       <span class="sidebar-logout-text">Выйти с аккаунта</span>
-    </div>
+    </div> -->
   </div>
 </template>
 

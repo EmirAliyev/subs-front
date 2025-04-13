@@ -15,8 +15,7 @@ defineProps({
 
 <template>
   <button class="sub-card-mini-btn" :loading="loading" @click="handleClick">
-    <p v-if="loading" class="spin">...</p>
-    <IconMinus v-else-if="!loading && active" />
+    <IconMinus v-if="active" />
     <IconPlus v-else />
   </button>
 </template>

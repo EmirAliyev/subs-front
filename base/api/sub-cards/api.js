@@ -5,6 +5,7 @@ const basePath = 'sub-cards'
 const paths = {
   index: concatApiPaths(basePath),
   add: concatApiPaths(basePath, 'add'),
+  update: concatApiPaths(basePath, 'update'),
   delete: concatApiPaths(basePath, 'delete'),
   top: concatApiPaths(basePath, 'top'),
 }
@@ -34,6 +35,11 @@ export async function addCardToUser(body) {
   return data
 }
 
+export async function updateUserCard(body) {
+  const { data } = await useNuxtApp().$axios.put(paths.update, body)
+  return data
+}
+
 export async function removeCardFromUser(body) {
   const { data } = await useNuxtApp().$axios.delete(paths.delete, { data: body })
   return data
@@ -48,6 +54,8 @@ export async function getTopSubs() {
 export const subCardsApi = {
   getAllSubCards,
   addCardToUser,
+  updateUserCard,
+
   removeCardFromUser,
   getTopSubs,
 }

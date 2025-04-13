@@ -1,20 +1,21 @@
 <script setup>
 import { computed } from 'vue'
 import { getLastUpdatedText } from '~/base/utils/lastUpdate'
-import { subCardsApi } from '~/base/api/sub-cards/api'
-import { useUserStore } from '~/store/user.store'
 import IconTime from '~/assets/svg/time.svg'
-import MiniButton from './ui/MiniButton.vue'
+import SubModal from '../Modal/SubCard/SubModal.vue'
 
 const props = defineProps({
   card: {
     type: Object,
     default: () => {},
   },
+  hideMiniButton: {
+    type: Boolean,
+    default: false,
+  },
 })
 
 const emit = defineEmits(['card-action'])
-const store = useUserStore()
 
 const currencySymbol = computed(() => {
   switch (props.card.currency) {
@@ -28,34 +29,11 @@ const currencySymbol = computed(() => {
       return ''
   }
 })
-
-const loading = ref(false)
-const handleMiniButton = async () => {
-  try {
-    loading.value = true
-    const { id } = store.user
-    const body = {
-      user_id: id,
-      card_id: props.card.id,
-    }
-
-    if (props.card.is_subscribed) {
-      await subCardsApi.removeCardFromUser(body)
-    } else {
-      await subCardsApi.addCardToUser(body)
-    }
-    emit('card-action')
-    loading.value = false
-  } catch (e) {
-    loading.value = false
-    console.log(e)
-  }
-}
 </script>
 
 <template>
   <div class="card">
-    <NuxtImg class="card-img" :src="card.img" />
+    <NuxtImg class="card-img" :src="card.img" :alt="`Подписка ${card.name}`"/>
     <div class="card-info">
       <div class="card-info-header">
         <span class="card-info-header-name">{{ card.name }}</span>
@@ -68,11 +46,17 @@ const handleMiniButton = async () => {
         <div class="card-info-bottom-update">
           <IconTime class="icon" />
           <span class="card-info-bottom-update-text">
-            {{ getLastUpdatedText(card.lastUpdated) }}
+            {{ getLastUpdatedText(card.last_updated) }}
           </span>
         </div>
         <div class="card-info-bottom-btn">
-          <MiniButton :active="card.is_subscribed" :loading="loading" @click="handleMiniButton" />
+          <SubModal
+            :card_id="card.id"
+            :hide-mini-button="hideMiniButton"
+            :is_subscribed="card.is_subscribed"
+            :name="card.name"
+            @card-action="emit('card-action')"
+          />
         </div>
       </div>
     </div>
@@ -91,6 +75,7 @@ const handleMiniButton = async () => {
   border-radius: 40px;
   padding: 20px 30px 20px 30px;
   gap: 8px;
+  background: white;
 
   &-img {
     max-width: 232px;

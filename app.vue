@@ -3,7 +3,7 @@ import { ref, computed } from 'vue'
 import Sidebar from '~/base/components/Sidebar.vue'
 import { NConfigProvider } from 'naive-ui'
 import Auth from './base/components/Auth.vue'
-
+import { useHead } from '#imports'
 const isSidebarOpen = ref(false)
 
 const appMainClass = computed(() => ({
@@ -24,6 +24,49 @@ const themeOverrides = {
     primaryColorHover: '#5F229A',
   },
 }
+
+useHead({
+  title: 'Подписки и расходы — Управляй своими сервисами',
+  meta: [
+    {
+      name: 'description',
+      content:
+        'Сравнивай цены, отслеживай подписки и контролируй расходы на сервисы — всё в одном месте.',
+    },
+    {
+      name: 'keywords',
+      content:
+        'подписки, управление подписками, цены на подписки, сравнение сервисов, расходы, финансы, бюджет',
+    },
+    {
+      property: 'og:title',
+      content: 'Подписки и расходы — Управляй своими сервисами',
+    },
+    {
+      property: 'og:description',
+      content:
+        'Узнай, сколько ты тратишь на подписки и как меняются их цены. Веди бюджет эффективно.',
+    },
+    {
+      property: 'og:image',
+      content: './public/images/subradar.png',
+    },
+    {
+      property: 'og:type',
+      content: 'website',
+    },
+    {
+      property: 'og:url',
+      content: 'https://subradar.ru',
+    },
+  ],
+  link: [
+    {
+      rel: 'canonical',
+      href: 'https://subradar.ru',
+    },
+  ],
+})
 </script>
 
 <template>

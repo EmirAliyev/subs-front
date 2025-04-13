@@ -7,7 +7,13 @@ export default defineNuxtConfig({
       dir: "dist"
     }
   },
-
+  app: {
+    head: {
+      link: [
+        { rel: "icon", type: "image/png", href: "/images/favicon.png" }
+      ]
+    }
+  },
   build: {
     transpile: ['naive-ui', 'vueuc']
   },
@@ -33,7 +39,7 @@ export default defineNuxtConfig({
         clientPort: 443, // Для работы с HTTPS
       },
       allowedHosts: [
-        '56d8-185-146-112-205.ngrok-free.app' // Добавь свой хост
+        '7fd6-185-146-112-205.ngrok-free.app' // Добавь свой хост
       ]
     },
     css: {

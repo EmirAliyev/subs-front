@@ -1,13 +1,81 @@
 <script setup>
 import SubCard from '~/base/components/SubCard/SubCard.vue'
 import MySubsTable from './ui/MySubsTable.vue'
-import Button from '~/base/ui/Button.vue'
 import MySubsDoughnut from './ui/MySubsDoughnut.vue'
-const tableData = [
-  { name: 'Netflix', price: 23, period: '23 дня', date: '09.02.2024' },
-  { name: 'Netflix', price: 23, period: '23 дня', date: '09.02.2024' },
-  { name: 'Netflix', price: 23, period: '23 дня', date: '09.02.2024' },
-]
+import CreateSubModal from '~/base/components/Modal/SubCard/ui/CreateSubModal.vue'
+import { userApi } from '~/base/api/user/api'
+import { useUserStore } from '~/store/user.store'
+import { dateFormatter } from '~/base/utils/date_formatter'
+import { subCardsApi } from '~/base/api/sub-cards/api'
+import MONTH_OPTIONS from '~/base/configs/month_options'
+
+const store = useUserStore()
+
+const subs = ref([])
+const getUserSubs = async () => {
+  const { id } = store.user
+  const data = await userApi.getUserSubs(id)
+  subs.value = data
+}
+getUserSubs()
+
+const totalPrice = computed(() =>
+  (subs.value ?? []).reduce((acc, val) => acc + val.price_per_month, 0)
+)
+
+const tableData = computed(() => {
+  return subs.value.map((s) => ({
+    id: s.id,
+    name: s.name,
+    price: s.price_per_month,
+    period: MONTH_OPTIONS.find((o) => +o.value === +s.period).label,
+    date_start: dateFormatter(s.date_start),
+    date_end: dateFormatter(s.date_end),
+  }))
+})
+
+const isOpen = ref(false)
+const loading = ref(false)
+const handleUpdate = async (form) => {
+  try {
+    loading.value = true
+    const { id: user_id } = store.user
+    const { card_id } = subForm
+    await subCardsApi.updateUserCard({
+      ...form,
+      date_start: form.date_start,
+      card_id,
+      user_id,
+    })
+    await getUserSubs()
+  } catch (e) {
+    console.log(e)
+  } finally {
+    handleClose()
+    loading.value = false
+  }
+}
+
+const subForm = reactive({})
+const handleSetForm = (form) => {
+  Object.assign(subForm, {
+    card_id: form.card_id,
+    name: form.name,
+    period: MONTH_OPTIONS.find((o) => o.label === form.period).value,
+    date_start: form.date_start,
+  })
+  console.log(subForm)
+
+  isOpen.value = true
+}
+
+const handleClose = () => {
+  isOpen.value = false
+  subForm.card_id = null
+  subForm.name = null
+  subForm.period = null
+  subForm.date_start = null
+}
 </script>
 
 <template>
@@ -15,21 +83,30 @@ const tableData = [
     <h1 class="my-subs-title">Мои подписки</h1>
     <div class="my-subs-content">
       <div class="my-subs-content-cards">
-        <SubCard class="my-subs-content-cards-item" v-for="item in 14" />
+        <SubCard v-for="card in subs" :card="card" :key="card.id" @card-action="getUserSubs" />
       </div>
       <div class="my-subs-content-info">
         <div class="my-subs-content-info-block-price">
           <span class="price-title">Стоимость в месяц</span>
-          <span class="price-sum">92$</span>
+          <span class="price-sum">{{ totalPrice }}$</span>
         </div>
         <MySubsDoughnut />
       </div>
     </div>
     <div class="my-subs-table-content">
       <h1 class="my-subs-table-content-title">Предстоящие оплаты</h1>
-      <Button theme="white">Добавить подписку</Button>
+      <!-- <Button theme="white">Добавить подписку</Button> -->
     </div>
-    <MySubsTable :table-data="tableData" />
+    <MySubsTable :table-data="tableData" @open-sub="handleSetForm" />
+    <CreateSubModal
+      v-if="isOpen"
+      v-model="isOpen"
+      :loading="loading"
+      :name="subForm.name"
+      :subForm="subForm"
+      @close="handleClose"
+      @confirm="handleUpdate"
+    />
   </div>
 </template>
 
