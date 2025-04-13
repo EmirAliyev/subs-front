@@ -1,5 +1,6 @@
 <script setup>
 import Table from '~/base/ui/Table.vue'
+import IconPencil from '~/assets/svg/pencil.svg'
 
 const emit = defineEmits(['update-sub'])
 const props = defineProps({
@@ -14,48 +15,45 @@ const columns = ref([
   {
     title: 'Имя',
     key: 'name',
-    width: '18%',
+    width: '16%',
   },
   {
     title: 'Цена',
     key: 'price',
-    width: '18%',
+    width: '10%',
   },
   {
     title: 'Период',
     key: 'period',
-    width: '18%',
+    width: '15%',
   },
   {
     title: 'Дата начала',
     key: 'date_start',
-    width: '18%',
+    width: '20%',
   },
   {
     title: 'Дата окончания',
     key: 'date_end',
-    width: '18%',
+    width: '20%',
   },
   {
     title: 'Настройка',
     key: 'settings',
     width: '10%',
+
     render(row) {
-      return h(
-        'p',
-        {
-          onClick: () => {
-            emit('open-sub', {
-              card_id: row.id,
-              name: row.name,
-              period: row.period,
-              date_start: row.date_start,
-            })
-          },
-          style: { cursor: 'pointer' },
+      return h(IconPencil, {
+        onClick: () => {
+          emit('open-sub', {
+            card_id: row.id,
+            name: row.name,
+            period: row.period,
+            date_start: row.date_start,
+          })
         },
-        'Редактировать'
-      )
+        style: { cursor: 'pointer' },
+      })
     },
   },
 ])
@@ -79,5 +77,14 @@ const columns = ref([
   padding: 45px 73px;
   border-radius: 36px;
   background: $light-grey;
+  overflow: auto;
+
+  @media (max-width: $md) {
+    padding: 25px 40px;
+  }
+}
+
+::v-deep(.n-data-table) {
+  min-width: 1120px;
 }
 </style>

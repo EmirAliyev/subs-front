@@ -209,20 +209,17 @@ const handleApplyFilters = () => {
   }
 
   &-content {
+    width: 100%;
     display: grid;
     justify-content: center;
-    grid-template-columns: repeat(auto-fit, minmax(295px, 1fr));
-    gap: 48px;
+    grid-template-columns: repeat(auto-fill, minmax(310px, 310px));
+    gap: 22px;
     margin-bottom: 60px;
 
     &-card {
       cursor: pointer;
     }
 
-    @media (max-width: $xl) {
-      grid-template-columns: repeat(auto-fit, minmax(285px, 1fr));
-      gap: 40px;
-    }
   }
 
   &-load {

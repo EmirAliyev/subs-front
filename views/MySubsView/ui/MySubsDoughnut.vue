@@ -68,5 +68,12 @@ const chartOptions = {
 <style lang="scss" scoped>
 .my-subs-doughnut {
   max-height: 440px;
+  max-width: 440px;
+
+  @media (max-width: $md) {
+    max-width: 320px;
+    max-height: 320px;
+
+  }
 }
 </style>

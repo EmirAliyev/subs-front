@@ -177,7 +177,7 @@ useHead({
   margin-left: 310px;
   width: calc(100% - 310px);
 
-  @media (max-width: $sm) {
+  @media (max-width: $md) {
     margin-left: 0;
     width: 100%;
   }
