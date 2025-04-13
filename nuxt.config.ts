@@ -43,7 +43,7 @@ export default defineNuxtConfig({
         clientPort: 443, // Для работы с HTTPS
       },
       allowedHosts: [
-        '7fd6-185-146-112-205.ngrok-free.app' // Добавь свой хост
+        'subradar.ru' 
       ]
     },
     css: {
