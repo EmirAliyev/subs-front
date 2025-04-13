@@ -3,8 +3,12 @@ import axios from 'axios'
 export default defineNuxtPlugin((nuxtApp) => {
   const config = useRuntimeConfig()
 
+  const baseURL = process.env.NODE_ENV === 'production'
+    ? config.public.apiUrlProd
+    : config.public.apiUrlDev
+
   const instance = axios.create({
-    baseURL: `${config.public.backendDevPort}/api`,
+    baseURL: `${baseURL}/api`,
   })
 
   instance.interceptors.request.use((config) => {
