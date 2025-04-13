@@ -17,9 +17,13 @@ export default defineNuxtConfig({
   build: {
     transpile: ['naive-ui', 'vueuc']
   },
-
+  runtimeConfig: {
+    public: {
+      backendDevPort: process.env.BACKEND_DEV_PORT,
+      exchangeApi: process.env.EXCANGE_API,
+    },
+  },
   modules: ['nuxt-svgo', '@nuxt/image', '@pinia/nuxt'],
-
   svgo: {
     svgo: true,
     defaultImport: 'component',
