@@ -3,7 +3,7 @@ import { computed } from 'vue'
 import { getLastUpdatedText } from '~/base/utils/lastUpdate'
 import IconTime from '~/assets/svg/time.svg'
 import SubModal from '../Modal/SubCard/SubModal.vue'
-
+import { useUserStore } from '~/store/user.store'
 const props = defineProps({
   card: {
     type: Object,
@@ -16,7 +16,7 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['card-action'])
-
+const store = useUserStore
 const currencySymbol = computed(() => {
   switch (props.card.currency) {
     case 'RUB':
@@ -33,7 +33,7 @@ const currencySymbol = computed(() => {
 
 <template>
   <div class="card">
-    <NuxtImg class="card-img" :src="card.img" :alt="`Подписка ${card.name}`"/>
+    <NuxtImg class="card-img" :src="card.img" :alt="`Подписка ${card.name}`" />
     <div class="card-info">
       <div class="card-info-header">
         <span class="card-info-header-name">{{ card.name }}</span>

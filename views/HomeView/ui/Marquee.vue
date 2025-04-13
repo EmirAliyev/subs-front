@@ -7,7 +7,6 @@ const { status, data: subCards } = useAsyncData(API_SUBCARDS_KEYS.TOP_SUBCARDS, 
   subCardsApi.getTopSubs()
 )
 
-console.log(subCards, 53)
 const gradientLength = ref('10%')
 const updateGradientLength = () => {
   const width = window.innerWidth

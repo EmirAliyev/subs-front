@@ -8,6 +8,8 @@ export const useUserStore = defineStore('useUserStore', {
 
   getters: {
     getUser: (state) => state.user,
+    isHasUser: (state) => Object.keys(state.user).length > 0,
+
   },
 
   actions: {

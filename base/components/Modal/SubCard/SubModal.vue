@@ -55,11 +55,12 @@ const handleClick = () => {
     isCreateModalOpen.value = true
   }
 }
+
 </script>
 
 <template>
   <MiniButton
-    v-if="!hideMiniButton"
+    v-if="!hideMiniButton && store.isHasUser"
     :active="is_subscribed"
     :loading="loading"
     @click="handleClick"
