@@ -8,8 +8,22 @@ User-agent: *
 Allow: /
 Disallow: /admin
 Disallow: /expenses
+
+User-agent: Googlebot
+Allow: /
+Disallow: /admin
+Disallow: /expenses
+
+
+User-agent: Yandex
+Allow: /
+Disallow: /admin
+Disallow: /expenses
+
 Sitemap: ${config.public.baseUrl}/sitemap.xml
 Host: ${config.public.baseUrl}
+
+
 `
 
 return result
