@@ -26,9 +26,12 @@ const themeOverrides = {
   },
 }
 
+// Добавление метатега для Яндекс.Вебмастера
 useHead({
   title: 'Подписки и расходы — Управляй своими сервисами',
   meta: [
+    { name: 'yandex-verification', content: 'b9a3f781a43f2858' },
+    { name: 'google-site-verification', content: '0CYPZzMVfsQvj_-MULPjI1V_ljWc4wfsVcgM-3uW6KI' },
     {
       name: 'description',
       content:
