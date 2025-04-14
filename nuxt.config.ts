@@ -18,14 +18,20 @@ export default defineNuxtConfig({
   build: {
     transpile: ['naive-ui', 'vueuc'],
   },
-
+  sitemap: {
+    exclude: [
+      '/admin/**',
+      '/expenses'
+    ],
+  },
   runtimeConfig: {
     public: {
+      baseUrl: process.env.NUXT_PUBLIC_BASE_URL || 'http://localhost:3000',
       apiUrlDev: process.env.NUXT_PUBLIC_API_URL_DEV,
       apiUrlProd: process.env.NUXT_PUBLIC_API_URL_PROD
     },
   },
-  modules: ['nuxt-svgo', '@nuxt/image', '@pinia/nuxt'],
+  modules: ['nuxt-svgo', '@nuxt/image', '@pinia/nuxt', '@nuxtjs/sitemap'],
   svgo: {
     svgo: true,
     defaultImport: 'component',

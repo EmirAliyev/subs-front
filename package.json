@@ -3,9 +3,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development nuxt dev",  
-    "build": "cross-env NODE_ENV=production nuxt build", 
-    "start": "cross-env NODE_ENV=production nuxt start" ,
+    "dev": "cross-env NODE_ENV=development nuxt dev",
+    "build": "cross-env NODE_ENV=production nuxt build",
+    "start": "cross-env NODE_ENV=production nuxt start",
     "deploy": "npm install && nuxt build && nuxt start",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@nuxt/image": "^1.10.0",
+    "@nuxtjs/sitemap": "^7.2.10",
     "@pinia/nuxt": "^0.10.1",
     "axios": "^1.8.4",
     "chart.js": "^4.4.8",
