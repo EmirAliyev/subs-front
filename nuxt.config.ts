@@ -1,3 +1,5 @@
+
+
 export default defineNuxtConfig({
   devtools: { enabled: true },
   ssr: true,
@@ -18,12 +20,6 @@ export default defineNuxtConfig({
   build: {
     transpile: ['naive-ui', 'vueuc'],
   },
-  sitemap: {
-    exclude: [
-      '/admin/**',
-      '/expenses'
-    ],
-  },
   runtimeConfig: {
     public: {
       baseUrl: process.env.NUXT_PUBLIC_BASE_URL || 'http://localhost:3000',
@@ -31,7 +27,7 @@ export default defineNuxtConfig({
       apiUrlProd: process.env.NUXT_PUBLIC_API_URL_PROD
     },
   },
-  modules: ['nuxt-svgo', '@nuxt/image', '@pinia/nuxt', '@nuxtjs/sitemap'],
+  modules: ['nuxt-svgo', '@nuxt/image', '@pinia/nuxt'],
   svgo: {
     svgo: true,
     defaultImport: 'component',

@@ -8,14 +8,22 @@ const store = useUserStore()
 
 let telegramLoadedCallbackFunc = async (data) => {
   const { access_token } = await authApi.login(data)
-  localStorage.setItem('auth-token', access_token)
+
+  const tokenCookie = useCookie('auth-token', {
+    path: '/', // доступна во всём приложении
+  })
+  tokenCookie.value = access_token
+
   const userData = await authApi.getMe()
+
   store.setUserLogged(true)
   store.setUser(userData)
 }
 
 const logout = () => {
-  localStorage.removeItem('auth-token')
+  const tokenCookie = useCookie('auth-token')
+  tokenCookie.value = null
+
   store.setUserLogged(false)
   store.setUser({})
 }

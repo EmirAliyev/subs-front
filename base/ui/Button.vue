@@ -1,6 +1,6 @@
 <script setup>
 import IconSpin from '~/assets/svg/spin.svg'
-defineProps({
+const props = defineProps({
   theme: {
     type: String,
     default: '',

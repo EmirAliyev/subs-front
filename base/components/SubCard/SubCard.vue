@@ -4,6 +4,7 @@ import { getLastUpdatedText } from '~/base/utils/lastUpdate'
 import IconTime from '~/assets/svg/time.svg'
 import SubModal from '../Modal/SubCard/SubModal.vue'
 import { useUserStore } from '~/store/user.store'
+import { getCurrencySymbol } from '~/base/utils/getCurrencySymbol'
 const props = defineProps({
   card: {
     type: Object,
@@ -17,28 +18,21 @@ const props = defineProps({
 
 const emit = defineEmits(['card-action'])
 const store = useUserStore
-const currencySymbol = computed(() => {
-  switch (props.card.currency) {
-    case 'RUB':
-      return '₽'
-    case 'USD':
-      return '$'
-    case 'EUR':
-      return '€'
-    default:
-      return ''
-  }
-})
+const router = useRouter()
+
+const goToSubscriptionPage = () => {
+  router.push(`/subs/podpiska-${props.card.slug}`)
+}
 </script>
 
 <template>
-  <div class="card">
+  <div class="card" @click.stop="goToSubscriptionPage">
     <NuxtImg class="card-img" :src="card.img" :alt="`Подписка ${card.name}`" />
     <div class="card-info">
       <div class="card-info-header">
         <span class="card-info-header-name">{{ card.name }}</span>
         <span class="card-info-header-price">
-          {{ card.price_per_month }} {{ currencySymbol }}
+          {{ card.price_per_month }} {{ getCurrencySymbol(card.currency) }}
         </span>
       </div>
       <span class="card-info-category">{{ card.categories[0]?.name }}</span>
@@ -76,6 +70,7 @@ const currencySymbol = computed(() => {
   padding: 20px 30px 20px 30px;
   gap: 8px;
   background: white;
+  cursor: pointer;
 
   &-img {
     max-width: 232px;

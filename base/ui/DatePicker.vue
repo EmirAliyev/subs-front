@@ -7,6 +7,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  placeholder:{
+    type:String,
+    default:'Выберите дату'
+  }
 })
 
 const disableDate = (ts) => {
@@ -23,7 +27,7 @@ const disableDate = (ts) => {
 <template>
   <n-date-picker
     size="large"
-    placeholder="Выберите дату"
+    :placeholder="placeholder"
     type="date"
     :actions="null"
     update-value-on-close

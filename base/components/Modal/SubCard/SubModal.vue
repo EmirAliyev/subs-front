@@ -63,7 +63,7 @@ const handleClick = () => {
     v-if="!hideMiniButton && store.isHasUser"
     :active="is_subscribed"
     :loading="loading"
-    @click="handleClick"
+    @click.stop="handleClick"
   />
 
   <DeleteConfirm

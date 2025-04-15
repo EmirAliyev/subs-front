@@ -8,6 +8,7 @@ const paths = {
   update: concatApiPaths(basePath, 'update'),
   delete: concatApiPaths(basePath, 'delete'),
   top: concatApiPaths(basePath, 'top'),
+  one: (slug) => concatApiPaths(basePath, slug),
 }
 
 export async function getAllSubCards(dto = {}) {
@@ -45,8 +46,16 @@ export async function removeCardFromUser(body) {
   return data
 }
 
-export async function getTopSubs() {
-  const { data } = await useNuxtApp().$axios.get(paths.top)
+export async function getTopSubs(take = 10) {
+  const { data } = await useNuxtApp().$axios.get(paths.top, {
+    params: { take },
+  })
+
+  return data
+}
+
+export async function getSubBySlug(slug) {
+  const { data } = await useNuxtApp().$axios.get(paths.one(slug))
 
   return data
 }
@@ -55,7 +64,7 @@ export const subCardsApi = {
   getAllSubCards,
   addCardToUser,
   updateUserCard,
-
+  getSubBySlug,
   removeCardFromUser,
   getTopSubs,
 }

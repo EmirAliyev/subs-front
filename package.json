@@ -13,7 +13,6 @@
   },
   "dependencies": {
     "@nuxt/image": "^1.10.0",
-    "@nuxtjs/sitemap": "^7.2.10",
     "@pinia/nuxt": "^0.10.1",
     "axios": "^1.8.4",
     "chart.js": "^4.4.8",

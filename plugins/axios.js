@@ -1,4 +1,6 @@
+// plugins/axios.ts
 import axios from 'axios'
+import { parseCookies } from 'h3'
 
 export default defineNuxtPlugin((nuxtApp) => {
   const config = useRuntimeConfig()
@@ -9,15 +11,26 @@ export default defineNuxtPlugin((nuxtApp) => {
 
   const instance = axios.create({
     baseURL: `${baseURL}/api`,
+    withCredentials: true, 
   })
 
   instance.interceptors.request.use((config) => {
     if (process.client) {
-      const token = localStorage.getItem('auth-token')
+      const token = useCookie('auth-token').value
       if (token) {
         config.headers.Authorization = `Bearer ${token}`
       }
     }
+
+    // Сервер
+    if (process.server) {
+      const cookies = parseCookies(nuxtApp.ssrContext?.event)
+      const token = cookies['auth-token']
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`
+      }
+    }
+
     return config
   })
 

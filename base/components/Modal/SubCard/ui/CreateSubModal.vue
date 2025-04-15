@@ -55,7 +55,7 @@ const handleConfirm = () => {
     <template #content>
       <div class="add-sub-modal-content">
         <Select :options="MONTH_OPTIONS" v-model="form.period" placeholder="Выберите период" />
-        <DatePicker v-model="form.date_start" disableFuture />
+        <DatePicker v-model="form.date_start" disableFuture  placeholder="Выберите дату начала подписки"/>
       </div>
     </template>
   </Dialog>

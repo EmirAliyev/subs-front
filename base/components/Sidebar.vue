@@ -36,7 +36,7 @@ const sidebarClass = computed(() => ({
     <nav>
       <ul class="sidebar-nav">
         <li v-for="(item, index) in iconComponents" :key="index">
-          <NuxtLink :to="item.path" class="sidebar-nav-item">
+          <NuxtLink :to="item.path" class="sidebar-nav-item" @click.native="emit('toggle-sidebar')">
             <component :is="item.iconComponent" class="sidebar-nav-icon" />
             <span class="sidebar-nav-text">{{ item.text }}</span>
           </NuxtLink>
