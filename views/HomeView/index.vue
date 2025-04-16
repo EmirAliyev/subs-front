@@ -9,8 +9,11 @@ import Marquee from './ui/Marquee.vue'
       src="/images/banner-bg.png"
       format="webp"
       preload
+      decoding="async"
+      fetchpriority="high"
       alt="Фоновое изображение баннера"
     />
+
     <div class="banner-content">
       <h1 class="banner-title">SUBRADAR - ВСЕ ВАШИ ПОДПИСКИ В ОДНОМ МЕСТЕ</h1>
       <h6 class="banner-desc">
