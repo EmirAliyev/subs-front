@@ -84,7 +84,13 @@ const handleUpdate = async (form) => {
   <div class="sub">
     <h1 class="sub-title">Информация по подписке</h1>
     <div class="sub-content">
-      <NuxtImg :src="card?.img" :alt="`Подписка ${card.name}`" class="sub-content-img" />
+      <NuxtImg
+        :src="card?.img"
+        loading="lazy"
+        format="webp"
+        :alt="`Подписка ${card.name}`"
+        class="sub-content-img"
+      />
       <div class="sub-content-block block">
         <div class="block-item">
           <span class="block-item__bold">Название: </span>

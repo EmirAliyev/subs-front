@@ -27,7 +27,13 @@ const goToSubscriptionPage = () => {
 
 <template>
   <div class="card" @click.stop="goToSubscriptionPage">
-    <NuxtImg class="card-img" :src="card.img" :alt="`Подписка ${card.name}`" />
+    <NuxtImg
+      class="card-img"
+      format="webp"
+      loading="lazy"
+      :src="card.img"
+      :alt="`Подписка ${card.name}`"
+    />
     <div class="card-info">
       <div class="card-info-header">
         <span class="card-info-header-name">{{ card.name }}</span>
