@@ -36,7 +36,12 @@ const goToSubscriptionPage = () => {
     />
     <div class="card-info">
       <div class="card-info-header">
-        <span class="card-info-header-name">{{ card.name }}</span>
+        <n-tooltip placement="top" trigger="hover">
+          <template #trigger>
+            <span class="card-info-header-name">{{ card.name }}</span>
+          </template>
+          {{ card.name }}
+        </n-tooltip>
         <span class="card-info-header-price">
           {{ card.price_per_month }} {{ getCurrencySymbol(card.currency) }}
         </span>
@@ -94,6 +99,15 @@ const goToSubscriptionPage = () => {
       width: 100%;
       font-size: 20px;
       font-weight: 600;
+
+      &-name {
+        width: 190px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-block;
+        position: relative;
+      }
     }
 
     &-bottom {

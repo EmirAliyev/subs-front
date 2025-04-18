@@ -4,19 +4,26 @@ import MySubsTable from './ui/MySubsTable.vue'
 import MySubsDoughnut from './ui/MySubsDoughnut.vue'
 import CreateSubModal from '~/base/components/Modal/SubCard/ui/CreateSubModal.vue'
 import { userApi } from '~/base/api/user/api'
+import { useMessage } from 'naive-ui'
 import { useUserStore } from '~/store/user.store'
 import { dateFormatter } from '~/base/utils/date_formatter'
 import { subCardsApi } from '~/base/api/sub-cards/api'
 import MONTH_OPTIONS from '~/base/configs/month_options'
 import { ref, reactive, computed, onMounted, nextTick } from 'vue'
+import Button from '~/base/ui/Button.vue'
+import { gptApi } from '~/base/api/gpt/api'
 
 const store = useUserStore()
+const message = useMessage()
 
 const subs = ref([])
+const isSubsLoading = ref(true)
 const getUserSubs = async () => {
+  isSubsLoading.value = true
   const { id } = store.user
   const data = await userApi.getUserSubs(id)
   subs.value = data
+  isSubsLoading.value = false
 }
 getUserSubs()
 
@@ -91,6 +98,20 @@ const checkWrap = () => {
 
 let resizeObserver
 
+const analyzeSubs = async () => {
+  message.info('Анализ может занять более минуты. Пожалуйста подождите', {
+    duration: 3000,
+    closable: true,
+  })
+
+  const data = await gptApi.analyzeUserSubs(store.user.id)
+
+  message.success(data.analysis, {
+    duration: 120000,
+    closable: true,
+  })
+}
+
 onMounted(() => {
   resizeObserver = new ResizeObserver(() => {
     nextTick(() => {
@@ -118,7 +139,12 @@ onUnmounted(() => {
 
 <template>
   <div class="my-subs">
-    <h1 class="my-subs-title">Мои подписки</h1>
+    <div class="my-subs-header">
+      <h1 class="my-subs-title">Мои подписки</h1>
+      <Button class="my-subs-header-btn" theme="white" @click="analyzeSubs"
+        >Проанализировать</Button
+      >
+    </div>
     <div class="my-subs-content" ref="containerRef">
       <div class="my-subs-content-cards" ref="cardsRef">
         <SubCard v-for="card in subs" :card="card" :key="card.id" @card-action="getUserSubs" />
@@ -134,7 +160,7 @@ onUnmounted(() => {
     <div class="my-subs-table-content">
       <h1 class="my-subs-table-content-title">Предстоящие оплаты</h1>
     </div>
-    <MySubsTable :table-data="tableData" @open-sub="handleSetForm" />
+    <MySubsTable v-if="!isSubsLoading" :table-data="tableData" @open-sub="handleSetForm" />
     <CreateSubModal
       v-if="isOpen"
       v-model="isOpen"
@@ -150,6 +176,21 @@ onUnmounted(() => {
 <style scoped lang="scss">
 .my-subs {
   overflow: hidden;
+  &-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 52px;
+    gap: 32px;
+    flex-wrap: wrap;
+
+    &-btn {
+      @media (max-width: $sm) {
+        width: 100%;
+      }
+    }
+  }
+
   &-table-content {
     display: flex;
     justify-content: space-between;
@@ -169,7 +210,6 @@ onUnmounted(() => {
   &-title {
     font-weight: 600;
     font-size: 48px;
-    margin-bottom: 52px;
 
     @media (max-width: $xl) {
       font-size: 32px;
@@ -192,7 +232,6 @@ onUnmounted(() => {
       height: 830px;
       padding: 40px 30px;
       display: grid;
-      justify-content: center;
       grid-template-columns: repeat(auto-fit, 310px);
       gap: 32px 25px;
       overflow: auto;
@@ -238,7 +277,6 @@ onUnmounted(() => {
         width: 100%;
         min-width: 480px;
         max-width: 480px;
-        height: 194px;
         padding: 28px 45px;
         box-shadow: 0px 5px 15px 0px #00000030;
         border-radius: 35px;

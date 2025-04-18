@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import Sidebar from '~/base/components/Sidebar.vue'
-import { NConfigProvider } from 'naive-ui'
+import { NConfigProvider} from 'naive-ui'
 import Auth from './base/components/Auth.vue'
 import { useHead } from '#imports'
 
@@ -25,7 +25,6 @@ const themeOverrides = {
     primaryColorHover: '#5F229A',
   },
 }
-
 
 // Добавление метатега для Яндекс.Вебмастера
 useHead({
@@ -101,27 +100,29 @@ onMounted(() => {
 
 <template>
   <n-config-provider :theme-overrides="themeOverrides">
-    <div class="app">
-      <Sidebar :isSidebarOpen="isSidebarOpen" @toggle-sidebar="toggleSidebar" />
-      <div class="app-main" :class="appMainClass" @click.stop="closeSidebar">
-        <header class="header">
-          <div class="sidebar-btn" v-if="!isSidebarOpen" @click.stop="toggleSidebar">
-            <div class="sidebar-btn-line"></div>
-            <div class="sidebar-btn-line"></div>
-            <div class="sidebar-btn-line"></div>
-          </div>
-          <div class="header-menu">
-            <ClientOnly>
-              <Auth />
-            </ClientOnly>
-          </div>
-        </header>
+    <n-message-provider>
+      <div class="app">
+        <Sidebar :isSidebarOpen="isSidebarOpen" @toggle-sidebar="toggleSidebar" />
+        <div class="app-main" :class="appMainClass" @click.stop="closeSidebar">
+          <header class="header">
+            <div class="sidebar-btn" v-if="!isSidebarOpen" @click.stop="toggleSidebar">
+              <div class="sidebar-btn-line"></div>
+              <div class="sidebar-btn-line"></div>
+              <div class="sidebar-btn-line"></div>
+            </div>
+            <div class="header-menu">
+              <ClientOnly>
+                <Auth />
+              </ClientOnly>
+            </div>
+          </header>
 
-        <div class="content">
-          <NuxtPage />
+          <div class="content">
+            <NuxtPage />
+          </div>
         </div>
       </div>
-    </div>
+    </n-message-provider>
   </n-config-provider>
 </template>
 

@@ -4,6 +4,8 @@ import SubCard from '~/base/components/SubCard/SubCard.vue'
 import { getCurrencySymbol } from '~/base/utils/getCurrencySymbol'
 import { subCardsApi } from '~/base/api/sub-cards/api'
 import { useUserStore } from '~/store/user.store'
+import { gptApi } from '~/base/api/gpt/api'
+import { useMessage } from 'naive-ui'
 import CreateSubModal from '~/base/components/Modal/SubCard/ui/CreateSubModal.vue'
 import MONTH_OPTIONS from '~/base/configs/month_options'
 
@@ -14,6 +16,7 @@ const props = defineProps({
   },
 })
 const store = useUserStore()
+const message = useMessage()
 const emit = defineEmits(['update-sub'])
 
 const subs = ref([])
@@ -78,6 +81,20 @@ const handleUpdate = async (form) => {
     loading.value = false
   }
 }
+
+const analyzeSub = async () => {
+  message.info('Анализ может занять более минуты. Пожалуйста подождите', {
+    duration: 3000,
+    closable: true,
+  })
+
+  const data = await gptApi.analyzeSub(props.card.id)
+
+  message.success(data.analysis, {
+    duration: 120000,
+    closable: true,
+  })
+}
 </script>
 
 <template>
@@ -111,15 +128,18 @@ const handleUpdate = async (form) => {
           <span class="block-item__light">1 месяц</span>
         </div>
         <div class="block-bottom">
-          <Button class="block-bottom-btn" theme="white" @click="handleOpen">
-            {{
-              !store.isHasUser
-                ? 'Авторизуйтесь'
-                : card.is_subscribed
-                  ? 'Редактировать'
-                  : 'Добавить подписку'
-            }}
-          </Button>
+          <div class="block-bottom-buttons">
+            <Button class="block-bottom-btn" theme="white" @click="handleOpen">
+              {{
+                !store.isHasUser
+                  ? 'Авторизуйтесь'
+                  : card.is_subscribed
+                    ? 'Редактировать'
+                    : 'Добавить подписку'
+              }}
+            </Button>
+            <Button class="block-bottom-btn" @click="analyzeSub">Анализ подписки</Button>
+          </div>
 
           <h2 class="block-bottom-price">
             Цена: {{ card.price_per_month }} {{ getCurrencySymbol(card.currency) }}
@@ -244,9 +264,18 @@ const handleUpdate = async (form) => {
         flex-direction: column-reverse;
       }
 
-      &-btn {
-        width: max-content;
+      &-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
 
+        @media (max-width: $md) {
+          flex-direction: column;
+        }
+      }
+
+      &-btn {
+        width: 240px;
         &-icon {
           path {
             stroke: $purple;

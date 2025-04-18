@@ -15,8 +15,6 @@ const { data: subCard, refresh } = useAsyncData(
   }
 )
 
-console.log(subCard.value, 534)
-
 useHead({
   title: () =>
     subCard.value?.name
@@ -27,8 +25,8 @@ useHead({
       name: 'description',
       content: () =>
         subCard.value?.description
-          ? `${subCard.value.description} | Цена: $${subCard.value.price_per_month}/мес`
-          : 'Сравнение подписок, цены, аналитика использования',
+          ? `${subCard.value.description} | Цена: $${subCard.value.price_per_month}/мес. Анализ с помощью ИИ.`
+          : 'Сравнение подписок, цены, аналитика использования. Анализ с помощью ИИ.',
     },
     {
       property: 'og:title',
@@ -36,7 +34,10 @@ useHead({
     },
     {
       property: 'og:description',
-      content: () => subCard.value?.description || 'Сравнение подписок и аналитика',
+      content: () =>
+        subCard.value?.description
+          ? `${subCard.value.description} — анализ с помощью ИИ`
+          : 'Сравнение подписок и аналитика с помощью ИИ',
     },
     {
       property: 'og:image',
@@ -51,7 +52,9 @@ useHead({
         '@context': 'https://schema.org',
         '@type': 'Product',
         name: subCard.value?.name,
-        description: subCard.value?.description,
+        description: subCard.value?.description
+          ? `${subCard.value.description}. Анализ и рекомендации с помощью ИИ.`
+          : 'Сравнение подписок, аналитика и рекомендации с помощью ИИ.',
         image: subCard.value?.img,
         brand: {
           '@type': 'Brand',
@@ -65,11 +68,12 @@ useHead({
       }),
     },
   ],
-})
+});
+
 </script>
 
 <template>
-  <OneSubView v-if="!pending" :card="subCard" @update-sub="refresh" />
+  <OneSubView v-if="subCard" :card="subCard" @update-sub="refresh" />
 </template>
 
 <style scoped lang="scss"></style>
