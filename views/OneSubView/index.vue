@@ -82,14 +82,16 @@ const handleUpdate = async (form) => {
   }
 }
 
+const isAnalyzeLoading = ref(false)
 const analyzeSub = async () => {
+  isAnalyzeLoading.value = true
   message.info('Анализ может занять более минуты. Пожалуйста подождите', {
-    duration: 3000,
+    duration: 5000,
     closable: true,
   })
 
   const data = await gptApi.analyzeSub(props.card.id)
-
+  isAnalyzeLoading.value = false
   message.success(data.analysis, {
     duration: 120000,
     closable: true,
@@ -138,7 +140,9 @@ const analyzeSub = async () => {
                     : 'Добавить подписку'
               }}
             </Button>
-            <Button class="block-bottom-btn" @click="analyzeSub">Анализ подписки</Button>
+            <Button :loading="isAnalyzeLoading" class="block-bottom-btn" @click="analyzeSub"
+              >Анализ подписки</Button
+            >
           </div>
 
           <h2 class="block-bottom-price">

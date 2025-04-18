@@ -98,13 +98,18 @@ const checkWrap = () => {
 
 let resizeObserver
 
+const isAnalyzeLoading = ref(false)
 const analyzeSubs = async () => {
+  isAnalyzeLoading.value = true
+
   message.info('Анализ может занять более минуты. Пожалуйста подождите', {
     duration: 3000,
     closable: true,
   })
 
   const data = await gptApi.analyzeUserSubs(store.user.id)
+
+  isAnalyzeLoading.value = false
 
   message.success(data.analysis, {
     duration: 120000,
@@ -141,7 +146,11 @@ onUnmounted(() => {
   <div class="my-subs">
     <div class="my-subs-header">
       <h1 class="my-subs-title">Мои подписки</h1>
-      <Button class="my-subs-header-btn" theme="white" @click="analyzeSubs"
+      <Button
+        class="my-subs-header-btn"
+        theme="white"
+        :loading="isAnalyzeLoading"
+        @click="analyzeSubs"
         >Проанализировать</Button
       >
     </div>
@@ -185,6 +194,7 @@ onUnmounted(() => {
     flex-wrap: wrap;
 
     &-btn {
+      width: 235px;
       @media (max-width: $sm) {
         width: 100%;
       }
