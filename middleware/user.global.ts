@@ -1,13 +1,16 @@
-import { defineNuxtRouteMiddleware } from 'nuxt/app'
+import { defineNuxtRouteMiddleware, navigateTo } from 'nuxt/app'
 import { useUserStore } from '~/store/user.store'
 import { authApi } from '~/base/api/auth/api'
 
-export default defineNuxtRouteMiddleware(async () => {
+export default defineNuxtRouteMiddleware(async (to) => {
   const store = useUserStore()
+  const tokenCookie = useCookie('auth-token')
 
   if (store.isUserLogged) return
 
-  const tokenCookie = useCookie('auth-token')
+  if (to.path === '/my-subs' && !tokenCookie.value) {
+    return navigateTo('/subs?unauthorized=true')
+  }
 
   if (tokenCookie.value) {
     try {
@@ -18,6 +21,7 @@ export default defineNuxtRouteMiddleware(async () => {
       console.error('Ошибка при получении данных пользователя:', err)
       store.setUserLogged(false)
       tokenCookie.value = null
+      return navigateTo('/subs?unauthorized=true')
     }
   }
 })
