@@ -101,7 +101,7 @@ const goToSubscriptionPage = () => {
       font-weight: 600;
 
       &-name {
-        width: 190px;
+        width: 170px;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
