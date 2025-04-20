@@ -2,15 +2,17 @@
 import { telegramLoginTemp } from 'vue3-telegram-login'
 import { useUserStore } from '~/store/user.store'
 import { authApi } from '~/base/api/auth/api'
+import { useRouter } from 'vue-router'
 import Button from '../ui/Button.vue'
 
 const store = useUserStore()
+const router = useRouter()
 
 let telegramLoadedCallbackFunc = async (data) => {
   const { access_token } = await authApi.login(data)
 
   const tokenCookie = useCookie('auth-token', {
-    path: '/', // доступна во всём приложении
+    path: '/',
   })
   tokenCookie.value = access_token
 
@@ -26,7 +28,12 @@ const logout = () => {
 
   store.setUserLogged(false)
   store.setUser({})
+
+  if (router.currentRoute.value.path === '/my-subs') {
+    router.push('/subs')
+  }
 }
+
 </script>
 
 <template>

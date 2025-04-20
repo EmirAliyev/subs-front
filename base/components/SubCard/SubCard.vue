@@ -1,5 +1,4 @@
 <script setup>
-import { computed } from 'vue'
 import { getLastUpdatedText } from '~/base/utils/lastUpdate'
 import IconTime from '~/assets/svg/time.svg'
 import SubModal from '../Modal/SubCard/SubModal.vue'
@@ -36,12 +35,14 @@ const goToSubscriptionPage = () => {
     />
     <div class="card-info">
       <div class="card-info-header">
-        <n-tooltip placement="top" trigger="hover">
-          <template #trigger>
-            <span class="card-info-header-name">{{ card.name }}</span>
-          </template>
-          {{ card.name }}
-        </n-tooltip>
+        <ClientOnly>
+          <n-tooltip placement="top" trigger="hover">
+            <template #trigger>
+              <span class="card-info-header-name">{{ card.name }}</span>
+            </template>
+            {{ card.name }}
+          </n-tooltip>
+        </ClientOnly>
         <span class="card-info-header-price">
           {{ card.price_per_month }} {{ getCurrencySymbol(card.currency) }}
         </span>

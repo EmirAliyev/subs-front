@@ -1,8 +1,8 @@
-import { defineNuxtRouteMiddleware } from 'nuxt/app'
+import { defineNuxtRouteMiddleware, navigateTo } from 'nuxt/app'
 import { useUserStore } from '~/store/user.store'
 import { authApi } from '~/base/api/auth/api'
 
-export default defineNuxtRouteMiddleware(async () => {
+export default defineNuxtRouteMiddleware(async (to) => {
   const store = useUserStore()
 
   if (store.isUserLogged) return
@@ -19,5 +19,9 @@ export default defineNuxtRouteMiddleware(async () => {
       store.setUserLogged(false)
       tokenCookie.value = null
     }
+  }
+
+  if (!store.isUserLogged && to.path === '/my-subs') {
+    return navigateTo('/subs')
   }
 })

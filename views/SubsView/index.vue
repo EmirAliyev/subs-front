@@ -11,7 +11,6 @@ import { categoriesApi } from '~/base/api/categories/api'
 import { subCardsApi } from '~/base/api/sub-cards/api'
 import { useRoute, useRouter } from 'vue-router'
 import { debounce } from '~/base/utils/debounce'
-import { useMessage } from 'naive-ui'
 
 const route = useRoute()
 const router = useRouter()
@@ -109,11 +108,6 @@ const handleApplyFilters = () => {
   filters.categoryIds = [...currentFiltersIds]
   filters.page = 1
 }
-
-const message = useMessage()
-if (route.query.unauthorized === 'true') {
-  message.error('У вас нет доступа к этой странице. Авторизуйтесь.')
-}
 </script>
 
 <template>
@@ -146,7 +140,7 @@ if (route.query.unauthorized === 'true') {
       @update-tags="handleCheckboxClick"
     />
 
-    <div class="subs-content">
+    <div class="subs-content" v-if="subCards?.data.length">
       <SubCard
         v-for="card in subCards?.data || []"
         :card="card"

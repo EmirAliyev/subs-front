@@ -1,9 +1,9 @@
 <script setup>
 import { defineAsyncComponent, computed } from 'vue'
 import NAVIGATION_CONFIG from '~/base/configs/nav'
-import LogoutIcon from '~/assets/svg/logout.svg'
 import IconLogo from '~/assets/svg/logo.svg'
 import XIcon from '~/assets/svg/x.svg'
+import { useUserStore } from '~/store/user.store'
 
 // Принимаем пропс isSidebarOpen
 const props = defineProps({
@@ -13,13 +13,15 @@ const props = defineProps({
   },
 })
 
-// Определяем событие для переключения состояния
+const store = useUserStore()
 const emit = defineEmits(['toggle-sidebar'])
 
-const iconComponents = NAVIGATION_CONFIG.map((item) => ({
-  ...item,
-  iconComponent: defineAsyncComponent(() => import(`~/assets/svg/${item.icon}.svg`)),
-}))
+const iconComponents = computed(() =>
+  NAVIGATION_CONFIG.filter((item) => !item.auth || store.isUserLogged).map((item) => ({
+    ...item,
+    iconComponent: defineAsyncComponent(() => import(`~/assets/svg/${item.icon}.svg`)),
+  }))
+)
 
 const sidebarClass = computed(() => ({
   'sidebar-open': props.isSidebarOpen,
