@@ -70,6 +70,20 @@ useHead({
       href: 'https://subradar.ru',
     },
   ],
+  script: [
+    {
+      src: 'https://www.googletagmanager.com/gtag/js?id=G-DC6PG21ER2',
+      async: true,
+    },
+    {
+      children: `
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-DC6PG21ER2');
+      `,
+    },
+  ],
 })
 
 // 👇 Метрика

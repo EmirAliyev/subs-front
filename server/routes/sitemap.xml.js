@@ -27,7 +27,7 @@ export default defineEventHandler(async (event) => {
     'wink-premium',
     'sberprajm',
     'khalva-desyatka',
-    'yandex-alisa',
+    'yandex-alisa-kolonka',
     'premier',
     'premier-match',
     'premier-sport',
