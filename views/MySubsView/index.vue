@@ -100,21 +100,25 @@ let resizeObserver
 
 const isAnalyzeLoading = ref(false)
 const analyzeSubs = async () => {
-  isAnalyzeLoading.value = true
+  try {
+    isAnalyzeLoading.value = true
 
-  message.info('Анализ может занять более минуты. Пожалуйста подождите', {
-    duration: 3000,
-    closable: true,
-  })
+    message.info('Анализ может занять более минуты. Пожалуйста подождите', {
+      duration: 3000,
+      closable: true,
+    })
 
-  const data = await gptApi.analyzeUserSubs(store.user.id)
+    const data = await gptApi.analyzeUserSubs(store.user.id)
 
-  isAnalyzeLoading.value = false
-
-  message.success(data.analysis, {
-    duration: 120000,
-    closable: true,
-  })
+    message.success(data.analysis, {
+      duration: 120000,
+      closable: true,
+    })
+  } catch (e) {
+    console.log(e)
+  } finally {
+    isAnalyzeLoading.value = false
+  }
 }
 
 onMounted(() => {

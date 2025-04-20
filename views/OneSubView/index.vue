@@ -84,18 +84,24 @@ const handleUpdate = async (form) => {
 
 const isAnalyzeLoading = ref(false)
 const analyzeSub = async () => {
-  isAnalyzeLoading.value = true
-  message.info('Анализ может занять более минуты. Пожалуйста подождите', {
-    duration: 5000,
-    closable: true,
-  })
+  try {
+    isAnalyzeLoading.value = true
+    message.info('Анализ может занять более минуты. Пожалуйста подождите', {
+      duration: 5000,
+      closable: true,
+    })
 
-  const data = await gptApi.analyzeSub(props.card.id)
-  isAnalyzeLoading.value = false
-  message.success(data.analysis, {
-    duration: 120000,
-    closable: true,
-  })
+    const data = await gptApi.analyzeSub({ sub_id: props.card.id, user_id: store.user.id })
+    isAnalyzeLoading.value = false
+    message.success(data.analysis, {
+      duration: 120000,
+      closable: true,
+    })
+  } catch (e) {
+    console.log(e)
+  } finally {
+    isAnalyzeLoading.value = false
+  }
 }
 </script>
 

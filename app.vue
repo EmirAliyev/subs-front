@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import Sidebar from '~/base/components/Sidebar.vue'
-import { NConfigProvider} from 'naive-ui'
+import { NConfigProvider, NMessageProvider } from 'naive-ui'
 import Auth from './base/components/Auth.vue'
 import { useHead } from '#imports'
 

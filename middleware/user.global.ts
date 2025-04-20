@@ -5,8 +5,6 @@ import { authApi } from '~/base/api/auth/api'
 export default defineNuxtRouteMiddleware(async (to) => {
   const store = useUserStore()
 
-  if (store.isUserLogged) return
-
   const tokenCookie = useCookie('auth-token')
 
   if (tokenCookie.value) {
