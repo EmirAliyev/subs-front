@@ -31,6 +31,7 @@ export default defineEventHandler(async (event) => {
     'premier',
     'premier-match',
     'premier-sport',
+    'kinopoisk',
   ]
 
   const dynamicRoutes = podpiskaSlugs.map((slug) => `/subs/podpiska-${slug}`)
