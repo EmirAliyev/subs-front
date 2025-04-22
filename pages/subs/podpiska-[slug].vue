@@ -45,6 +45,12 @@ useHead({
     },
     { property: 'og:type', content: 'website' },
   ],
+  link: [
+    {
+      rel: 'canonical',
+      href: `https://subradar.ru/subs/podpiska-${route.params.slug}`,
+    },
+  ],
   script: [
     {
       type: 'application/ld+json',
@@ -68,8 +74,7 @@ useHead({
       }),
     },
   ],
-});
-
+})
 </script>
 
 <template>
